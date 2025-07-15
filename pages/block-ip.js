@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { AuthContext } from 'context/AuthContext';
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import { AuthContext } from "context/AuthContext";
 
 const sampleBlockedIPs = [
-  { id: 1, ip: '192.168.1.100', status: 'Blocked' },
-  { id: 2, ip: '10.0.0.5', status: 'Blocked' },
-  { id: 3, ip: '203.0.113.50', status: 'Pending' },
+  { id: 1, ip: "192.168.1.100", status: "Blocked" },
+  { id: 2, ip: "10.0.0.5", status: "Blocked" },
+  { id: 3, ip: "203.0.113.50", status: "Pending" },
 ];
 
 export default function BlockIP() {
@@ -13,8 +13,8 @@ export default function BlockIP() {
   const { userRole } = useContext(AuthContext);
 
   // Only allow access to admin role
-  if (userRole !== 'admin') {
-    router.push('/auth/login');
+  if (userRole !== "admin") {
+    router.push("/auth/login");
     return null;
   }
 
@@ -24,9 +24,9 @@ export default function BlockIP() {
     setBlockedIPs((prev) =>
       prev.map((ip) =>
         ip.id === id
-          ? { ...ip, status: ip.status === 'Blocked' ? 'Pending' : 'Blocked' }
-          : ip
-      )
+          ? { ...ip, status: ip.status === "Blocked" ? "Pending" : "Blocked" }
+          : ip,
+      ),
     );
   };
 

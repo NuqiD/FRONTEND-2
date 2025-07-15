@@ -2,13 +2,14 @@ const plugin = require("tailwindcss/plugin");
 const colors = require("tailwindcss/colors");
 
 module.exports = {
-  purge: {
-    enabled: true,
-    content: ["./**/*.html", "./*.html", "./**/*.js", "./*.js"],
-    options: {
-      safelist: [],
-    },
-  },
+  content: [
+    "./**/*.html",
+    "./**/*.js",
+    "./**/*.jsx",
+    "./**/*.ts",
+    "./**/*.tsx",
+  ],
+
   theme: {
     colors: {
       ...colors,
@@ -72,6 +73,7 @@ module.exports = {
       },
     },
   },
+
   variants: [
     "responsive",
     "group-hover",
@@ -86,8 +88,12 @@ module.exports = {
     "visited",
     "disabled",
   ],
+
   plugins: [
     require("@tailwindcss/forms"),
+    require("@tailwindcss/typography"),
+    require("@tailwindcss/aspect-ratio"),
+    require("daisyui"),
     plugin(function ({ addComponents, theme }) {
       const screens = theme("screens", {});
       addComponents([

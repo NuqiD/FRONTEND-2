@@ -42,7 +42,7 @@ export default function Sidebar() {
       { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
     ],
     ITSupport: [
-            { href: "/notifications", label: "Notifications", icon: "fas fa-bell" },
+      { href: "/notifications", label: "Notifications", icon: "fas fa-bell" },
     ],
   };
 
@@ -61,12 +61,9 @@ export default function Sidebar() {
             <i className="fas fa-bars"></i>
           </button>
           {/* Brand */}
-          <Link
-            href="/"
-            className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0"
-          >
-            Threat Analysis System
-          </Link>
+          <div className="md:block text-left md:pb-2 text-blueGray-600 mr-0 inline-block whitespace-nowrap text-sm uppercase font-bold p-4 px-0">
+            TACTIC
+          </div>
           {/* User */}
           {/* Removed notification and user dropdown from sidebar as per request */}
           {/* User for desktop */}
@@ -132,17 +129,29 @@ export default function Sidebar() {
                     }
                   >
                     <i
-                      className={`${icon} mr-2 text-sm ${
-                        router.pathname.indexOf(href) !== -1
-                          ? "opacity-75"
-                          : "text-blueGray-300"
-                      }`}
+                      className={`${icon} mr-2 text-sm ${router.pathname.indexOf(href) !== -1
+                        ? "opacity-75"
+                        : "text-blueGray-300"
+                        }`}
                     ></i>{" "}
                     {label}
                   </Link>
                 </li>
               ))}
             </ul>
+            <hr className="my-4 md:min-w-full" />
+            <button
+              onClick={() => {
+                // Add your logout logic here
+                // e.g., clear token, context, and redirect
+                localStorage.removeItem("token");
+                router.push("/auth/login");
+              }}
+              className="text-red-500 hover:text-red-700 text-xs uppercase font-bold px-4 py-2"
+            >
+              <i className="fas fa-sign-out-alt mr-2"></i>
+              Logout
+            </button>
           </div>
         </div>
       </nav>

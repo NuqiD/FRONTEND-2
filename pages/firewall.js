@@ -1,11 +1,11 @@
-import React, { useState, useContext } from 'react';
-import { useRouter } from 'next/router';
-import { AuthContext } from 'context/AuthContext';
+import React, { useState, useContext } from "react";
+import { useRouter } from "next/router";
+import { AuthContext } from "context/AuthContext";
 
 const sampleRules = [
-  { id: 1, rule: 'Block IP 192.168.1.100', status: 'Active' },
-  { id: 2, rule: 'Allow IP 10.0.0.5', status: 'Active' },
-  { id: 3, rule: 'Block IP 203.0.113.50', status: 'Pending' },
+  { id: 1, rule: "Block IP 192.168.1.100", status: "Active" },
+  { id: 2, rule: "Allow IP 10.0.0.5", status: "Active" },
+  { id: 3, rule: "Block IP 203.0.113.50", status: "Pending" },
 ];
 
 export default function Firewall() {
@@ -13,8 +13,8 @@ export default function Firewall() {
   const { userRole } = useContext(AuthContext);
 
   // Only allow access to admin role
-  if (userRole !== 'admin') {
-    router.push('/auth/login');
+  if (userRole !== "admin") {
+    router.push("/auth/login");
     return null;
   }
 
@@ -24,9 +24,9 @@ export default function Firewall() {
     setRules((prev) =>
       prev.map((rule) =>
         rule.id === id
-          ? { ...rule, status: rule.status === 'Active' ? 'Pending' : 'Active' }
-          : rule
-      )
+          ? { ...rule, status: rule.status === "Active" ? "Pending" : "Active" }
+          : rule,
+      ),
     );
   };
 

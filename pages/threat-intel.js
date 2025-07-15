@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 export default function ThreatIntel() {
-  const [ioc, setIoc] = useState('');
+  const [ioc, setIoc] = useState("");
   const [result, setResult] = useState(null);
 
   const handleSearch = () => {

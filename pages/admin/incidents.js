@@ -1,126 +1,46 @@
 import React, { useState } from "react";
 import Admin from "layouts/Admin.js";
 
-const sampleIncidents = [
+const sampleAlerts = [
   {
-    id: "INC-001",
-    title: "Suspicious Network Activity",
-    type: "Network Intrusion",
-    reporter: "SOC Agent",
-    description: "Unusual traffic patterns detected from external IP",
-    status: "Open",
-    assignedTo: "Security Analyst",
-    priority: "High",
+    id: "ALERT-101",
+    title: "Multiple Failed Login Attempts",
+    alertLevel: 12,
+    source: "Wazuh Agent",
+    description: "Detected several failed SSH login attempts on server srv-01",
+    timestamp: "2025-07-15 09:21:00",
   },
   {
-    id: "INC-002",
-    title: "Malware Detection",
-    type: "Malware",
-    reporter: "SOC Agent",
-    description: "Trojan detected on workstation WS-001",
-    status: "In Progress",
-    assignedTo: "Security Analyst",
-    priority: "Critical",
+    id: "ALERT-102",
+    title: "Possible Malware Execution",
+    alertLevel: 13,
+    source: "Wazuh Agent",
+    description: "Suspicious file execution detected on endpoint PC-22",
+    timestamp: "2025-07-15 10:03:00",
   },
   {
-    id: "INC-003",
-    title: "Phishing Attempt",
-    type: "Phishing",
-    reporter: "Employee",
-    description: "Suspicious email received by finance department",
-    status: "Open",
-    assignedTo: "SOC Agent",
-    priority: "High",
+    id: "ALERT-103",
+    title: "Sensitive File Accessed",
+    alertLevel: 12,
+    source: "Wazuh Agent",
+    description: "Access to confidential file without proper authorization",
+    timestamp: "2025-07-15 08:55:00",
   },
   {
-    id: "INC-004",
-    title: "Unauthorized Access",
-    type: "Access Violation",
-    reporter: "IT Admin",
-    description: "Login attempt from unknown device",
-    status: "Open",
-    assignedTo: "Security Analyst",
-    priority: "High",
+    id: "ALERT-104",
+    title: "Suspicious Network Connection",
+    alertLevel: 13,
+    source: "Wazuh Agent",
+    description: "Unusual outbound connection detected from internal host",
+    timestamp: "2025-07-15 11:15:00",
   },
   {
-    id: "INC-005",
-    title: "Data Leak",
-    type: "Data Breach",
-    reporter: "SOC Agent",
-    description: "Sensitive data found on public repository",
-    status: "In Progress",
-    assignedTo: "SOC Agent",
-    priority: "Critical",
-  },
-  {
-    id: "INC-006",
-    title: "Ransomware Alert",
-    type: "Malware",
-    reporter: "Employee",
-    description: "Ransomware detected on server SRV-002",
-    status: "Open",
-    assignedTo: "Security Analyst",
-    priority: "Critical",
-  },
-  {
-    id: "INC-007",
-    title: "Brute Force Attack",
-    type: "Network Intrusion",
-    reporter: "SOC Agent",
-    description: "Multiple failed login attempts detected",
-    status: "Open",
-    assignedTo: "SOC Agent",
-    priority: "High",
-  },
-  {
-    id: "INC-008",
-    title: "Lost Device",
-    type: "Physical Security",
-    reporter: "Employee",
-    description: "Company laptop reported lost",
-    status: "Open",
-    assignedTo: "IT Admin",
-    priority: "High",
-  },
-  {
-    id: "INC-009",
-    title: "Firewall Breach",
-    type: "Network Intrusion",
-    reporter: "SOC Agent",
-    description: "Firewall rules bypassed",
-    status: "In Progress",
-    assignedTo: "Security Analyst",
-    priority: "Critical",
-  },
-  {
-    id: "INC-010",
-    title: "Suspicious USB Device",
-    type: "Physical Security",
-    reporter: "IT Admin",
-    description: "Unknown USB device connected to workstation",
-    status: "Open",
-    assignedTo: "SOC Agent",
-    priority: "High",
-  },
-  {
-    id: "INC-011",
-    title: "Account Compromise",
-    type: "Access Violation",
-    reporter: "Employee",
-    description: "Account credentials leaked",
-    status: "In Progress",
-    assignedTo: "Security Analyst",
-    priority: "Critical",
-  },
-  {
-    id: "INC-012",
-    title: "DDOS Attack",
-    type: "Network Intrusion",
-    reporter: "SOC Agent",
-    description: "Service disruption due to DDOS",
-    status: "Open",
-    assignedTo: "SOC Agent",
-    priority: "Critical",
+    id: "ALERT-105",
+    title: "Privilege Escalation Attempt",
+    alertLevel: 13,
+    source: "Wazuh Agent",
+    description: "User tried to perform admin operation without privileges",
+    timestamp: "2025-07-15 07:42:00",
   },
 ];
 
@@ -154,7 +74,8 @@ const statusBadge = (status) => {
     case "In Progress":
       return (
         <span className="text-blue-600 font-bold flex items-center">
-          <span className="w-3 h-3 bg-blue-600 rounded-full mr-1"></span>In Progress
+          <span className="w-3 h-3 bg-blue-600 rounded-full mr-1"></span>In
+          Progress
         </span>
       );
     default:
@@ -162,47 +83,42 @@ const statusBadge = (status) => {
   }
 };
 
-export default function AdminIncidents() {
-  const [search, setSearch] = useState("");
+export default function AdminAlerts() {
   const [page, setPage] = useState(1);
 
-  const filteredIncidents = sampleIncidents;
-
-  // Pagination logic
-  const incidentsPerPage = 7;
-  const totalPages = Math.ceil(filteredIncidents.length / incidentsPerPage);
-  const paginatedIncidents = filteredIncidents.slice(
-    (page - 1) * incidentsPerPage,
-    page * incidentsPerPage
+  const alertsPerPage = 5;
+  const totalPages = Math.ceil(sampleAlerts.length / alertsPerPage);
+  const paginatedAlerts = sampleAlerts.slice(
+    (page - 1) * alertsPerPage,
+    page * alertsPerPage
   );
 
   return (
     <Admin>
       <div className="container mx-auto p-4">
-        <h2 className="text-lg font-semibold mb-4">Admin Incidents</h2>
-        {paginatedIncidents.map((incident) => (
-          <div key={incident.id} className="bg-white rounded shadow p-4 mb-4">
+        <h2 className="text-lg font-semibold mb-4">Wazuh Alerts (Level 12 & 13)</h2>
+        {paginatedAlerts.map((alert) => (
+          <div key={alert.id} className="bg-white rounded shadow p-4 mb-4">
             <div className="flex justify-between items-center mb-2">
               <h3 className="font-semibold">
-                {incident.id} - {incident.title}
+                {alert.id} - {alert.title}
               </h3>
-              {priorityBadge(incident.priority)}
+              <span
+                className={`text-xs font-bold px-2 py-1 rounded-full ml-2 ${
+                  alert.alertLevel === 13 ? "bg-red-600 text-white" : "bg-orange-500 text-white"
+                }`}
+              >
+                Level {alert.alertLevel}
+              </span>
             </div>
-            <p>
-              <strong>Type:</strong> {incident.type}
-            </p>
-            <p>
-              <strong>Status:</strong> {statusBadge(incident.status)}
-            </p>
-            <p>
-              <strong>Reporter:</strong> {incident.reporter}
-            </p>
-            <p>
-              <strong>Assigned To:</strong> {incident.assignedTo}
-            </p>
-            <p>
-              <strong>Description:</strong> {incident.description}
-            </p>
+            <p><strong>Source:</strong> {alert.source}</p>
+            <p><strong>Description:</strong> {alert.description}</p>
+            <p><strong>Timestamp:</strong> {alert.timestamp}</p>
+            <div className="mt-2">
+              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                Create Incident
+              </button>
+            </div>
           </div>
         ))}
         <div className="flex justify-center items-center mt-4 space-x-2">

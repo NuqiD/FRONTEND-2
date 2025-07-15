@@ -1,9 +1,24 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 const sampleApprovals = [
-  { id: 1, title: 'IP Block Request', status: 'Pending', requestedBy: 'SecurityAnalyst' },
-  { id: 2, title: 'Incident Closure', status: 'Approved', requestedBy: 'SOCAgent' },
-  { id: 3, title: 'Ticket Escalation', status: 'Rejected', requestedBy: 'ITSupport' },
+  {
+    id: 1,
+    title: "IP Block Request",
+    status: "Pending",
+    requestedBy: "SecurityAnalyst",
+  },
+  {
+    id: 2,
+    title: "Incident Closure",
+    status: "Approved",
+    requestedBy: "SOCAgent",
+  },
+  {
+    id: 3,
+    title: "Ticket Escalation",
+    status: "Rejected",
+    requestedBy: "ITSupport",
+  },
 ];
 
 export default function Approvals() {

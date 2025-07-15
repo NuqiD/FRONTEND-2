@@ -28,7 +28,10 @@ export default function Login() {
         localStorage.setItem("token", "dummy-token-for-testing");
         localStorage.setItem("userRole", "SecurityAnalyst");
         router.push("/dashboard");
-      } else if (email === "cloudflare@example.com" && password === "password") {
+      } else if (
+        email === "cloudflare@example.com" &&
+        password === "password"
+      ) {
         localStorage.setItem("token", "dummy-token-for-testing");
         localStorage.setItem("userRole", "CloudflareAdmin");
         router.push("/dashboard");
@@ -56,11 +59,10 @@ export default function Login() {
         <div className="flex content-center items-center justify-center h-full">
           <div className="w-full lg:w-4/12 px-4">
             <div className="relative flex flex-col min-w-0 break-words w-full mb-6 shadow-lg rounded-lg bg-blueGray-200 border-0">
-              <div className="rounded-t mb-0 px-6 py-6">
-              </div>
+              <div className="rounded-t mb-0 px-6 py-6"></div>
               <div className="flex-auto px-4 lg:px-10 py-10 pt-0">
-                <div className="text-blueGray-400 text-center mb-3 font-bold">
-                  <small>Threat Analysis System MSSD</small>
+                <div className="text-blueGray-400 text-center mb-3 font-bold text-xl">
+                  Threat Analysis System MSSD
                 </div>
                 <form onSubmit={handleSubmit}>
                   <div className="relative w-full mb-3">

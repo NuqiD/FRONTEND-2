@@ -1,8 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 
 const sampleIncidentsToVerify = [
-  { id: 1, title: 'Unauthorized Access Attempt', status: 'Pending Verification' },
-  { id: 2, title: 'Malware Detected', status: 'Pending Verification' },
+  {
+    id: 1,
+    title: "Unauthorized Access Attempt",
+    status: "Pending Verification",
+  },
+  { id: 2, title: "Malware Detected", status: "Pending Verification" },
 ];
 
 export default function Verify() {
@@ -11,8 +15,8 @@ export default function Verify() {
   const handleVerify = (id) => {
     setIncidents((prev) =>
       prev.map((incident) =>
-        incident.id === id ? { ...incident, status: 'Verified' } : incident
-      )
+        incident.id === id ? { ...incident, status: "Verified" } : incident,
+      ),
     );
   };
 
@@ -35,7 +39,7 @@ export default function Verify() {
               <td className="py-2 px-4 border-b">{incident.title}</td>
               <td className="py-2 px-4 border-b">{incident.status}</td>
               <td className="py-2 px-4 border-b">
-                {incident.status === 'Pending Verification' ? (
+                {incident.status === "Pending Verification" ? (
                   <button
                     onClick={() => handleVerify(incident.id)}
                     className="bg-green-500 text-white px-3 py-1 rounded hover:bg-green-600"

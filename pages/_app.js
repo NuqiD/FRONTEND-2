@@ -15,7 +15,7 @@ Router.events.on("routeChangeStart", (url) => {
   document.body.classList.add("body-page-transition");
   ReactDOM.render(
     <PageChange path={url} />,
-    document.getElementById("page-transition")
+    document.getElementById("page-transition"),
   );
 });
 Router.events.on("routeChangeComplete", () => {

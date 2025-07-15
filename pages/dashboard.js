@@ -41,7 +41,8 @@ const sampleCriticalThreats = [
     analyst: "Security Analyst",
     lastUpdated: "2024-01-15 11:45:00",
     status: "Active",
-    description: "Detected ongoing APT group activity targeting critical assets",
+    description:
+      "Detected ongoing APT group activity targeting critical assets",
     priority: "Critical",
   },
 ];
@@ -104,9 +105,13 @@ export default function Dashboard() {
         <div className="grid grid-cols-1 md:grid-cols-1 gap-4 mb-6">
           <div className="bg-white p-4 rounded shadow flex items-center justify-between">
             <div>
-              <p className="text-gray-600 text-xs uppercase">Active Incidents</p>
+              <p className="text-gray-600 text-xs uppercase">
+                Active Incidents
+              </p>
               <p className="text-xl font-bold">{sampleStats.activeIncidents}</p>
-              <p className="text-green-500 text-xs">↑ {sampleStats.activeIncidentsChange} Since last month</p>
+              <p className="text-green-500 text-xs">
+                ↑ {sampleStats.activeIncidentsChange} Since last month
+              </p>
             </div>
             <div className="bg-red-500 rounded-full p-2 text-white cursor-pointer">
               <i className="fas fa-exclamation-triangle"></i>
@@ -117,7 +122,9 @@ export default function Dashboard() {
         {/* TACTIC System Overview */}
         <div className="bg-white rounded shadow p-4 mb-6">
           <h2 className="text-lg font-semibold mb-2">TACTIC System Overview</h2>
-          <p className="text-gray-600">Real-time threat analysis, coordination and ticketing dashboard</p>
+          <p className="text-gray-600">
+            Real-time threat analysis, coordination and ticketing dashboard
+          </p>
         </div>
 
         {/* Sections */}
@@ -126,9 +133,14 @@ export default function Dashboard() {
           <div className="bg-white rounded shadow p-4">
             <h3 className="font-semibold mb-2">Recent Incidents</h3>
             {sampleRecentIncidents.map((incident) => (
-              <div key={incident.id} className="mb-4 border-b border-gray-200 pb-2">
+              <div
+                key={incident.id}
+                className="mb-4 border-b border-gray-200 pb-2"
+              >
                 <div className="flex justify-between items-center">
-                  <h4 className="font-semibold">{incident.id} - {incident.title}</h4>
+                  <h4 className="font-semibold">
+                    {incident.id} - {incident.title}
+                  </h4>
                   {priorityBadge(incident.priority)}
                 </div>
                 <p className="text-xs uppercase font-semibold">Type</p>
@@ -149,9 +161,14 @@ export default function Dashboard() {
           <div className="bg-white rounded shadow p-4">
             <h3 className="font-semibold mb-2">Critical Threats</h3>
             {sampleCriticalThreats.map((threat) => (
-              <div key={threat.id} className="mb-4 border-b border-gray-200 pb-2">
+              <div
+                key={threat.id}
+                className="mb-4 border-b border-gray-200 pb-2"
+              >
                 <div className="flex justify-between items-center">
-                  <h4 className="font-semibold">{threat.id} - {threat.title}</h4>
+                  <h4 className="font-semibold">
+                    {threat.id} - {threat.title}
+                  </h4>
                   {priorityBadge(threat.priority)}
                 </div>
                 <p className="text-xs uppercase font-semibold">Type</p>
@@ -172,18 +189,27 @@ export default function Dashboard() {
           <div className="bg-white rounded shadow p-4">
             <h3 className="font-semibold mb-2">Urgent Tickets</h3>
             {sampleUrgentTickets.map((ticket) => (
-              <div key={ticket.id} className="mb-4 border-b border-gray-200 pb-2">
+              <div
+                key={ticket.id}
+                className="mb-4 border-b border-gray-200 pb-2"
+              >
                 <div className="flex justify-between items-center">
-                  <h4 className="font-semibold">{ticket.id} - {ticket.title}</h4>
+                  <h4 className="font-semibold">
+                    {ticket.id} - {ticket.title}
+                  </h4>
                   {priorityBadge(ticket.priority)}
                 </div>
                 <p className="text-xs uppercase font-semibold">Status</p>
                 <p>{statusBadge(ticket.status)}</p>
                 <p className="text-xs uppercase font-semibold">Assignee</p>
                 <p>{ticket.assignee}</p>
-                <p className="text-xs uppercase font-semibold">Related Incident</p>
+                <p className="text-xs uppercase font-semibold">
+                  Related Incident
+                </p>
                 <p>{ticket.relatedIncident}</p>
-                <p className="text-xs uppercase font-semibold">Estimated Resolution</p>
+                <p className="text-xs uppercase font-semibold">
+                  Estimated Resolution
+                </p>
                 <p>{ticket.estResolution}</p>
               </div>
             ))}
