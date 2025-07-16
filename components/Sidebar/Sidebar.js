@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 import { AuthContext } from "context/AuthContext";
-import { User } from "lucide-react";
+//import { User } from "lucide-react";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
