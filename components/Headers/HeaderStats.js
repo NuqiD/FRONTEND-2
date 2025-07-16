@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
 
 // components
 
-import CardStats from "components/Cards/CardStats.js";
+import CardStats from 'components/Cards/CardStats.js';
 
 export default function HeaderStats() {
   return (
@@ -15,50 +15,50 @@ export default function HeaderStats() {
             <div className="flex flex-wrap">
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="OPEN INCIDENTS"
-                  statTitle="20"
+                  statSubtitle="ALERTS"
+                  statTitle="3000"
                   statArrow="up"
                   statPercent="3.48"
-                  statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="fa-solid fa-circle-exclamation"
+                  statPercentColor="text-red-500"
+                  statDescription="Since last month"
+                  statIconName="fas fa-exclamation-triangle"
                   statIconColor="bg-red-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="NEW USERS"
-                  statTitle="2,356"
+                  statSubtitle="TICKETS"
+                  statTitle="30"
                   statArrow="down"
                   statPercent="3.48"
-                  statPercentColor="text-red-500"
-                  statDescripiron="Since last week"
-                  statIconName="fas fa-chart-pie"
+                  statPercentColor="text-emerald-500"
+                  statDescription="Since last week"
+                  statIconName="fas fa-ticket-alt"
                   statIconColor="bg-orange-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="SALES"
-                  statTitle="924"
+                  statSubtitle="OPEN TICKETS"
+                  statTitle="15"
                   statArrow="down"
                   statPercent="1.10"
-                  statPercentColor="text-orange-500"
-                  statDescripiron="Since yesterday"
-                  statIconName="fas fa-users"
+                  statPercentColor="text-emerald-500"
+                  statDescription="Since yesterday"
+                  statIconName="fas fa-folder-open"
                   statIconColor="bg-pink-500"
                 />
               </div>
               <div className="w-full lg:w-6/12 xl:w-3/12 px-4">
                 <CardStats
-                  statSubtitle="PERFORMANCE"
-                  statTitle="49,65%"
+                  statSubtitle="CLOSED TICKETS"
+                  statTitle="15"
                   statArrow="up"
                   statPercent="12"
                   statPercentColor="text-emerald-500"
-                  statDescripiron="Since last month"
-                  statIconName="fas fa-percent"
-                  statIconColor="bg-lightBlue-500"
+                  statDescription="Since last month"
+                  statIconName="fas fa-check-circle"
+                  statIconColor="bg-emerald-500"
                 />
               </div>
             </div>

@@ -1,25 +1,59 @@
-import React from "react";
-import { createPopper } from "@popperjs/core";
+import React from 'react';
+import { createPopper } from '@popperjs/core';
 
-const NotificationDropdown = () => {
-  // dropdown props
+const TableDropdown = () => {
   const [dropdownPopoverShow, setDropdownPopoverShow] = React.useState(false);
-  const btnDropdownRef = React.createRef();
-  const popoverDropdownRef = React.createRef();
+  const btnDropdownRef = React.useRef(null);
+  const popoverDropdownRef = React.useRef(null);
+  const popperInstance = React.useRef(null);
+
   const openDropdownPopover = () => {
-    createPopper(btnDropdownRef.current, popoverDropdownRef.current, {
-      placement: "left-start",
-    });
-    setDropdownPopoverShow(true);
+    if (btnDropdownRef.current && popoverDropdownRef.current) {
+      // Always destroy previous instance before creating a new one
+      if (popperInstance.current) {
+        popperInstance.current.destroy();
+      }
+      popperInstance.current = createPopper(
+        btnDropdownRef.current,
+        popoverDropdownRef.current,
+        { placement: 'bottom-end' } // Use 'bottom-end' or 'bottom-start'
+      );
+      setDropdownPopoverShow(true);
+    }
   };
+
   const closeDropdownPopover = () => {
     setDropdownPopoverShow(false);
+    if (popperInstance.current) {
+      popperInstance.current.destroy();
+      popperInstance.current = null;
+    }
   };
+
+  // Close dropdown on click outside
+  React.useEffect(() => {
+    function handleClickOutside(event) {
+      if (
+        popoverDropdownRef.current &&
+        !popoverDropdownRef.current.contains(event.target) &&
+        btnDropdownRef.current &&
+        !btnDropdownRef.current.contains(event.target)
+      ) {
+        closeDropdownPopover();
+      }
+    }
+    if (dropdownPopoverShow) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownPopoverShow]);
+
   return (
     <>
-      <a
+      <button
         className="text-blueGray-500 py-1 px-3"
-        href="#pablo"
         ref={btnDropdownRef}
         onClick={(e) => {
           e.preventDefault();
@@ -27,44 +61,29 @@ const NotificationDropdown = () => {
         }}
       >
         <i className="fas fa-ellipsis-v"></i>
-      </a>
+      </button>
       <div
         ref={popoverDropdownRef}
+        style={{ display: dropdownPopoverShow ? 'block' : 'none' }}
         className={
-          (dropdownPopoverShow ? "block " : "hidden ") +
-          "bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48"
+          'bg-white text-base z-50 float-left py-2 list-none text-left rounded shadow-lg min-w-48'
         }
       >
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
+        <button
+          className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-nowrap bg-transparent text-blueGray-700"
+          onClick={() => {}}
         >
-          Action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
+          Create Ticket
+        </button>
+        <button
+          className="text-sm py-2 px-4 font-normal block w-full text-left whitespace-nowrap bg-transparent text-blueGray-700"
+          onClick={() => {}}
         >
-          Another action
-        </a>
-        <a
-          href="#pablo"
-          className={
-            "text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-blueGray-700"
-          }
-          onClick={(e) => e.preventDefault()}
-        >
-          Something else here
-        </a>
+          View Alert
+        </button>
       </div>
     </>
   );
 };
 
-export default NotificationDropdown;
+export default TableDropdown;

@@ -56,13 +56,6 @@ const UserDropdown = () => {
         }
         style={{ overflow: "visible" }}
       >
-        {/* Removed Login button */}
-        <button
-          className="text-sm py-2 px-4 font-normal block w-full whitespace-nowrap bg-transparent text-red-600 hover:bg-red-100 text-left"
-          onClick={handleLogout}
-        >
-          Logout
-        </button>
       </div>
     </>
   );

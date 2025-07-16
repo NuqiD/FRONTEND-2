@@ -18,7 +18,7 @@ export default function Sidebar() {
     admin: [
       { href: "/admin/dashboard", label: "Dashboard", icon: "fas fa-tv" },
       { href: "/admin/incidents", label: "Alert", icon: "fas fa-exclamation-triangle" },
-      { href: "/admin/tickets", label: "Tickets", icon: "fas fa-ticket-alt" },
+      { href: "/admin/settings", label: "Tickets", icon: "fas fa-ticket-alt" },
       // Removed workflow path as requested
       { href: "/admin/firewall", label: "Firewall", icon: "fas fa-shield-alt" },
       { href: "/admin/block-ip", label: "Block IP", icon: "fas fa-ban" },

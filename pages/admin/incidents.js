@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+/*import React, { useState } from "react";
 import Admin from "layouts/Admin.js";
 
 const sampleAlerts = [
@@ -115,7 +115,7 @@ export default function AdminAlerts() {
             <p><strong>Description:</strong> {alert.description}</p>
             <p><strong>Timestamp:</strong> {alert.timestamp}</p>
             <div className="mt-2">
-              <button className="bg-blue-600 text-white px-3 py-1 rounded text-sm">
+              <button className="bg-blue-600 text-black px-3 py-1 rounded text-sm hover:bg-blue-1000">
                 Create Incident
               </button>
             </div>
@@ -143,4 +143,28 @@ export default function AdminAlerts() {
       </div>
     </Admin>
   );
+}*/
+
+import React from "react";
+
+// components
+
+import CardAlert from "components/Cards/CardAlert.js";
+
+// layout for page
+
+import Admin from "layouts/Admin.js";
+
+export default function Tables() {
+  return (
+    <>
+      <div className="flex flex-wrap mt-4">
+        <div className="w-full mb-12 px-4">
+          <CardAlert />
+        </div>
+      </div>
+    </>
+  );
 }
+
+Tables.layout = Admin;
