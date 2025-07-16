@@ -4,11 +4,12 @@ import { useRouter } from "next/router";
 import NotificationDropdown from "components/Dropdowns/NotificationDropdown.js";
 import UserDropdown from "components/Dropdowns/UserDropdown.js";
 import { AuthContext } from "context/AuthContext";
+import { User } from "lucide-react";
 
 export default function Sidebar() {
   const [collapseShow, setCollapseShow] = useState("hidden");
   const router = useRouter();
-  const { userRole } = useContext(AuthContext);
+  const { userRole } = useContext(AuthContext); // Get user role from context
 
   // Define menu items per role
   const menuItems = {
@@ -25,28 +26,29 @@ export default function Sidebar() {
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
       { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
     ],
-    SOCAgent: [
-      { href: "/admin/incidents", label: "Incidents", icon: "fas fa-exclamation-triangle" },
-      { href: "/admin/tickets", label: "Tickets", icon: "fas fa-ticket-alt" },
-      { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
-      { href: "/verify", label: "Verify Incident", icon: "fas fa-check" },
+    User: [
+      { href: "/admin/dashboard", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
+      { href: "/admin/settings", label: "Tickets", icon: "fas fa-ticket-alt" },
+      { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" }, 
     ],
     SecurityAnalyst: [
-      { href: "/admin/incidents", label: "Incidents", icon: "fas fa-exclamation-triangle" },
-      { href: "/admin/tickets", label: "Tickets", icon: "fas fa-ticket-alt" },
+      { href: "/securityanalyst/dashboard", label: "Dashboard", icon: "fas fa-tv" },
+      { href: "/admin/incident", label: "Alert", icon: "fas fa-exclamation-triangle" },
       // Removed workflow path as requested
-      { href: "/threat-intel", label: "Threat Intelligence", icon: "fas fa-search" },
     ],
     HeadOfDepartment: [
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
       { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
     ],
-    ITSupport: [
-      { href: "/notifications", label: "Notifications", icon: "fas fa-bell" },
+    Cloudflare: [
+      { href: "/admin/incidents", label: "Notifications", icon: "fas fa-exclamation-triangle" },
     ],
-  };
+    Firewall: [
+      { href: "/admin/incidents", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
+    ],
+  };// Define items based on user role
 
-  const items = menuItems[userRole] || menuItems["guest"];
+  const items = menuItems[userRole] || menuItems["guest"]; 
 
   return (
     <>
