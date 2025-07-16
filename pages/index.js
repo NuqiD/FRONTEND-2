@@ -67,10 +67,10 @@ export default function Login() {
                 <form onSubmit={handleSubmit}>
                   <div className="relative w-full mb-3">
                     <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      className="text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="email"
                     >
-                      Email
+                      EMAIL (admin@example.com) 
                     </label>
                     <input
                       type="email"
@@ -85,10 +85,10 @@ export default function Login() {
 
                   <div className="relative w-full mb-3">
                     <label
-                      className="block uppercase text-blueGray-600 text-xs font-bold mb-2"
+                      className="text-blueGray-600 text-xs font-bold mb-2"
                       htmlFor="password"
                     >
-                      Password
+                      PASSWORD (password)
                     </label>
                     <input
                       type="password"
