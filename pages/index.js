@@ -8,7 +8,8 @@ const loginUser = async (username, password) => {
   formData.append('username', username);
   formData.append('password', password);
 
-  const response = await fetch("http://192.168.0.21:8000/auth/login", {
+  // Change http to https for the fetch URL
+  const response = await fetch("https://192.168.0.21:8000/auth/login", {
     method: "POST",
     body: formData,
   }); // Ensure the URL matches your backend endpoint
