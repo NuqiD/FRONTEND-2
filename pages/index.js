@@ -3,16 +3,16 @@ import { useRouter } from "next/router";
 import AuthNoNavbar from "layouts/AuthNoNavbar.js";
 import { AuthContext } from "context/AuthContext";
 
+// Async login function
 const loginUser = async (username, password) => {
   const formData = new FormData();
-  formData.append('username', username);
-  formData.append('password', password);
+  formData.append("username", username);
+  formData.append("password", password);
 
-  // Change http to https for the fetch URL
   const response = await fetch("http://192.168.0.21:8000/auth/login", {
     method: "POST",
     body: formData,
-  }); // Ensure the URL matches your backend endpoint
+  });
 
   const data = await response.json();
 
@@ -20,15 +20,26 @@ const loginUser = async (username, password) => {
     throw new Error(data.detail || "Login failed");
   }
 
-  // Store tokens and role
-  localStorage.setItem("access_token", data.access_token);
-  localStorage.setItem("refresh_token", data.refresh_token);
-  localStorage.setItem("token_type", data.token_type);
-  localStorage.setItem("expires_in", data.expires_in);
-  localStorage.setItem("userRole", data.role);
+  // Save relevant fields to localStorage
+  const keysToStore = [
+    "access_token",
+    "refresh_token",
+    "token_type",
+    "expires_in",
+    "role",
+  ];
+
+  keysToStore.forEach((key) => {
+    const value = data[key];
+    if (key === "role") {
+      localStorage.setItem("userRole", value);
+    } else {
+      localStorage.setItem(key, value);
+    }
+  });
 
   return data;
-};// This function handles the login request and stores user data in localStorage
+};
 
 export default function Login() {
   const router = useRouter();
@@ -45,13 +56,16 @@ export default function Login() {
 
     try {
       const data = await loginUser(username, password);
-      setUserRole(data.role);
-
-      // Normalize role and redirect
       const role = data.role?.toLowerCase();
 
+      if (!role) throw new Error("Role not found in response");
+
+      setUserRole(role);
+
+      // Redirect based on role
       switch (role) {
         case "admin":
+        case "user": // Assuming both go to same dashboard
           router.push("/admin/dashboard");
           break;
         case "hod":
@@ -63,11 +77,8 @@ export default function Login() {
         case "analyst":
           router.push("/securityanalyst/dashboard");
           break;
-        case "user":
-          router.push("/admin/dashboard");
-          break;
         default:
-          throw new Error("Unknown role");
+          throw new Error("Unknown role: " + role);
       }
     } catch (err) {
       setError(err.message);
@@ -103,6 +114,7 @@ export default function Login() {
                       className="border-0 px-3 py-3 placeholder-blueGray-300 text-blueGray-600 bg-white rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
                       placeholder="Username"
                       required
+                      autoFocus
                     />
                   </div>
 
