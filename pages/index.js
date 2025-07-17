@@ -3,9 +3,35 @@ import { useRouter } from "next/router";
 import AuthNoNavbar from "layouts/AuthNoNavbar.js";
 import { AuthContext } from "context/AuthContext";
 
+const loginUser = async (username, password) => {
+  const formData = new FormData();
+  formData.append('username', username);
+  formData.append('password', password);
+
+  const response = await fetch("http://192.168.0.21:8000/auth/login", {
+    method: "POST",
+    body: formData,
+  }); // Ensure the URL matches your backend endpoint
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.detail || "Login failed");
+  }
+
+  // Store tokens and role
+  localStorage.setItem("access_token", data.access_token);
+  localStorage.setItem("refresh_token", data.refresh_token);
+  localStorage.setItem("token_type", data.token_type);
+  localStorage.setItem("expires_in", data.expires_in);
+  localStorage.setItem("userRole", data.role);
+
+  return data;
+};// This function handles the login request and stores user data in localStorage
+
 export default function Login() {
   const router = useRouter();
-  const { setUserRole } = useContext(AuthContext); // ✅ use context
+  const { setUserRole } = useContext(AuthContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
@@ -17,27 +43,8 @@ export default function Login() {
     setError(null);
 
     try {
-      const response = await fetch("http://192.168.0.21:8000/auth/login", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ username, password }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.detail || "Login failed");
-      }
-
-      // Store tokens and role
-      localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("refresh_token", data.refresh_token);
-      localStorage.setItem("token_type", data.token_type);
-      localStorage.setItem("expires_in", data.expires_in);
-      localStorage.setItem("userRole", data.role); // Save to localStorage
-      setUserRole(data.role); // ✅ Save to context
+      const data = await loginUser(username, password);
+      setUserRole(data.role);
 
       // Normalize role and redirect
       const role = data.role?.toLowerCase();
@@ -47,16 +54,16 @@ export default function Login() {
           router.push("/admin/dashboard");
           break;
         case "hod":
-          router.push("/admin/approval"); // update later to /hod/approvals
+          router.push("/admin/approval");
           break;
         case "firewall":
-          router.push("/admin/incidents"); // update later to /firewall/dashboard
+          router.push("/admin/incidents");
           break;
         case "analyst":
-          router.push("/securityanalyst/dashboard"); // update later to /analyst/dashboard
+          router.push("/securityanalyst/dashboard");
           break;
         case "user":
-          router.push("/admin/dashboard"); // update later to /user/dashboard
+          router.push("/admin/dashboard");
           break;
         default:
           throw new Error("Unknown role");
