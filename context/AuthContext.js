@@ -1,22 +1,22 @@
-import React, { createContext, useState, useEffect } from "react"; // Import necessary hooks and context
+import React, { createContext, useState, useEffect } from "react";
 
-export const AuthContext = createContext();// Create AuthContext
+export const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [userRole, setUserRole] = useState(null); // start with null, not "guest"
-  const [loading, setLoading] = useState(true); // Loading state to manage initial data fetch
+  const [userRole, setUserRole] = useState(
+    typeof window !== "undefined" ? localStorage.getItem("userRole") || "guest" : "guest"
+  );// Default to "guest" if no role is found
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const role = localStorage.getItem("userRole");
-      setUserRole(role || "guest");
-      setLoading(false);
+    const role = localStorage.getItem("userRole");
+    if (role) {
+      setUserRole(role);
     }
-  }, []);// Effect to set user role from localStorage on initial load
+  }, []);// Initialize userRole from localStorage
 
   return (
-    <AuthContext.Provider value={{ userRole, setUserRole, loading }}>
+    <AuthContext.Provider value={{ userRole, setUserRole }}>
       {children}
     </AuthContext.Provider>
   );// Provide userRole and setUserRole to children components
-}// AuthProvider component to wrap around the application
+}// AuthProvider

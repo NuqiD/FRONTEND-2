@@ -24,7 +24,7 @@ export default function Sidebar() {
       { href: "/admin/firewall", label: "Firewall", icon: "fas fa-shield-alt" },
       { href: "/admin/block-ip", label: "Block IP", icon: "fas fa-ban" },
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
-      { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
+      { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" }, 
     ],
     user: [
       { href: "/admin/dashboard", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
