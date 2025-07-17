@@ -65,16 +65,18 @@ export default function Login() {
       // Redirect based on role
       switch (role) {
         case "admin":
+          router.push("/admin/dashboard");
+          break;
         case "user": // Assuming both go to same dashboard
           router.push("/admin/dashboard");
           break;
-        case "hod":
+        case "hod": // Head of Department
           router.push("/admin/approval");
           break;
-        case "firewall":
+        case "firewall": // Firewall role
           router.push("/admin/incidents");
           break;
-        case "analyst":
+        case "analyst":  // Security Analyst
           router.push("/securityanalyst/dashboard");
           break;
         default:
