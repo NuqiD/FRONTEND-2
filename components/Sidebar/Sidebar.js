@@ -26,29 +26,29 @@ export default function Sidebar() {
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
       { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
     ],
-    User: [
+    user: [
       { href: "/admin/dashboard", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
       { href: "/admin/settings", label: "Tickets", icon: "fas fa-ticket-alt" },
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" }, 
     ],
-    SecurityAnalyst: [
+    analyst: [
       { href: "/securityanalyst/dashboard", label: "Dashboard", icon: "fas fa-tv" },
-      { href: "/admin/incident", label: "Alert", icon: "fas fa-exclamation-triangle" },
+      { href: "/securityanalyst/incident", label: "Alert", icon: "fas fa-exclamation-triangle" },
       // Removed workflow path as requested
     ],
-    HeadOfDepartment: [
+    hod: [
       { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
       { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
     ],
     Cloudflare: [
       { href: "/admin/incidents", label: "Notifications", icon: "fas fa-exclamation-triangle" },
     ],
-    Firewall: [
+    firewall: [
       { href: "/admin/incidents", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
     ],
   };// Define items based on user role
 
-  const items = menuItems[userRole] || menuItems["guest"]; 
+  const items = menuItems[userRole] || menuItems["guest"]; //
 
   return (
     <>
@@ -158,5 +158,5 @@ export default function Sidebar() {
         </div>
       </nav>
     </>
-  );
+  ); 
 }
