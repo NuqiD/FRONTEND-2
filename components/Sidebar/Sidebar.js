@@ -36,14 +36,13 @@ export default function Sidebar() {
       { href: "/securityanalyst/incident", label: "Alert", icon: "fas fa-exclamation-triangle" },
     ],
     hod: [
-      { href: "/admin/approvals", label: "Approvals", icon: "fas fa-check-circle" },
-      { href: "/admin/reports", label: "Reports", icon: "fas fa-file-alt" },
+      { href: "/hod/dashboard", label: "Dashboard", icon: "fas fa-tv" },
     ],
     cloudflare: [
       { href: "/admin/incidents", label: "Notifications", icon: "fas fa-exclamation-triangle" },
     ],
     firewall: [
-      { href: "/admin/incidents", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
+      { href: "/firewall/dashboard", label: "Dashboard", icon: "fas fa-exclamation-triangle" },
     ],
   };
 
