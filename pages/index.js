@@ -71,10 +71,10 @@ export default function Login() {
           router.push("/admin/dashboard");
           break;
         case "hod": // Head of Department
-          router.push("/admin/approval");
+          router.push("/hod/approval");
           break;
         case "firewall": // Firewall role
-          router.push("/admin/incidents");
+          router.push("/firewall/dashboard");
           break;
         case "analyst":  // Security Analyst
           router.push("/securityanalyst/dashboard");
