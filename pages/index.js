@@ -9,7 +9,7 @@ const loginUser = async (username, password) => {
   formData.append("username", username);// Append username to FormData
   formData.append("password", password);// Create FormData object with username and password
 
-  const response = await fetch("https://192.168.0.21:8000/auth/login", {
+  const response = await fetch("http://192.168.0.21:8000/auth/login", {
     method: "POST",
     body: formData,
   });// Send POST request with form data
