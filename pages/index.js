@@ -9,7 +9,7 @@ const loginUser = async (username, password) => {
   formData.append("username", username);// Append username to FormData
   formData.append("password", password);// Create FormData object with username and password
 
-  const response = await fetch("https://tactic.chatngo.net/api/auth/login", {
+  const response = await fetch("http://192.168.0.21:8000/api/auth/login", {
     method: "POST",
     body: formData,
   });// Send POST request with form data
@@ -57,18 +57,38 @@ export default function Login() {
     setLoading(true);// Set loading state to true
     setError(null);// Reset error state
 
-    // Call login function with username and password
     try {
-      const data = await loginUser(username, password);// Call login function with username and password
+      const data = await loginUser(username, password);// Call loginUser to authenticate
+      const role = data.role?.toLowerCase();// Extract role from response data
 
-      // Store username for OTP verification step
-      localStorage.setItem("otpUsername", username);
-      localStorage.setItem("preAuthRole", data.role?.toLowerCase());
-      localStorage.setItem("preAuthToken", data.access_token); // if needed for OTP verification
+      if (!role) throw new Error("Role not found in response");// Check if role exists
 
-      router.replace("/otp"); // redirect to OTP page
+      setUserRole(role);
+
+      // Redirect based on role
+      switch (role) {
+        case "admin":
+          router.replace("/admin/dashboard");
+          break;
+        case "user": // Assuming both go to same dashboard
+          router.replace("/admin/dashboard");
+          break;
+        case "hod": // Head of Department
+          router.replace("/hod/dashboard");
+          break;
+        case "firewall": // Firewall role
+          router.replace("/firewall/dashboard");
+          break;
+        case "analyst":  // Security Analyst
+          router.replace("/securityanalyst/dashboard");
+          break;
+        default:
+          throw new Error("Unknown role: " + role);
+      }
     } catch (err) {
-      setError(err.message);// Set error message if login fails
+      setError(err.message);
+    } finally {
+      setLoading(false);
     }
   };
 
