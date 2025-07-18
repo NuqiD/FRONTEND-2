@@ -5,43 +5,28 @@ import { AuthContext } from "context/AuthContext";
 
 // Async login function
 const loginUser = async (username, password) => {
-  const formData = new FormData();// Create FormData object to send username and password
-  formData.append("username", username);// Append username to FormData
-  formData.append("password", password);// Create FormData object with username and password
+  const formData = new FormData();
+  formData.append("username", username);
+  formData.append("password", password);
 
-  const response = await fetch("https://tactic.chatngo.net/api/auth/login", {
+  const response = await fetch("https://tactic.chatngo.net/api/auth/login-otp", {
     method: "POST",
     body: formData,
   });// Send POST request with form data
 
-  const data = await response.json();// Parse the JSON response
+  const data = await response.json();
 
   if (!response.ok) {
-    const errorMsg = data?.detail || data?.message || "Login failed";// Fallback error message
-    throw new Error(errorMsg);// Handle error if response is not ok
+    const errorMsg = data?.detail || data?.message || "Login failed";
+    throw new Error(errorMsg);
   }
 
-  // Save relevant fields to localStorage
-  const keysToStore = [
-    "access_token",
-    "refresh_token",
-    "token_type",
-    "expires_in",
-    "role",
-  ];
-
-  // Check if all keys exist in the response data
-  keysToStore.forEach((key) => {
-    const value = data[key];
-    if (key === "role") {
-      localStorage.setItem("userRole", value);
-    } else {
-      localStorage.setItem(key, value);
-    }
-  });
+  // Save user_id for OTP
+  localStorage.setItem("user_id", data.user_id); // For OTP verification and QR setup
 
   return data;
 };
+
 // Login component
 export default function Login() {
   const router = useRouter();// Initialize router for navigation
@@ -53,38 +38,21 @@ export default function Login() {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault();// Prevent default form submission
-    setLoading(true);// Set loading state to true
-    setError(null);// Reset error state
+    e.preventDefault(); // Prevent default form submission
+    setLoading(true);   // Set loading state to true
+    setError(null);     // Reset error state
 
     try {
-      const data = await loginUser(username, password);// Call loginUser to authenticate
-      const role = data.role?.toLowerCase();// Extract role from response data
+      const data = await loginUser(username, password); //login with username/password
 
-      if (!role) throw new Error("Role not found in response");// Check if role exists
-
+      // Store user role (optional, for later use)
+      const role = data.role?.toLowerCase();
+      if (!role) throw new Error("Role not found in response");
       setUserRole(role);
+      localStorage.setItem("userRole", role);
 
-      // Redirect based on role
-      switch (role) {
-        case "admin":
-          router.replace("/admin/dashboard");
-          break;
-        case "user": // Assuming both go to same dashboard
-          router.replace("/admin/dashboard");
-          break;
-        case "hod": // Head of Department
-          router.replace("/hod/dashboard");
-          break;
-        case "firewall": // Firewall role
-          router.replace("/firewall/dashboard");
-          break;
-        case "analyst":  // Security Analyst
-          router.replace("/securityanalyst/dashboard");
-          break;
-        default:
-          throw new Error("Unknown role: " + role);
-      }
+      // Redirect to OTP verification page
+      router.replace("/otp/verify"); //verify OTP from authenticator
     } catch (err) {
       setError(err.message);
     } finally {
