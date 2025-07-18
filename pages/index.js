@@ -10,24 +10,20 @@ const loginUser = async (username, password) => {
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ username, password }), // Send username and password to the API
+    body: JSON.stringify({ username, password }),
   });
 
-  const data = await response.json();// Parse the JSON response
+  const data = await response.json();
 
-  // 🔍 Debug the API response
-  console.log("Login OTP Response:", data); // <= Temporary log for debugging
+  console.log("Login OTP Response:", data);
 
   if (!response.ok) {
     const errorMsg = data?.detail || data?.message || "Login failed";
     throw new Error(errorMsg);
   }
 
-  // Save user_id for OTP
-  localStorage.setItem("user_id", data.user_id); // For OTP verification and QR setup
-
-  return data;
-};
+  return data; // Let handleSubmit deal with saving
+};// Async login function ends here
 
 // Login component
 export default function Login() {
@@ -41,31 +37,36 @@ export default function Login() {
 
   // Handle form submission
   const handleSubmit = async (e) => {
-    e.preventDefault(); // Prevent default form submission
-    setLoading(true);   // Set loading state to true
-    setError(null);     // Reset error state
+  e.preventDefault();// Prevent default form submission
+  setLoading(true);// Set loading state to true
+  setError(null);// Reset error state
 
-    // Attempt to login
-    try {
-      const data = await loginUser(username, password); //login with username/password
-      
+  try {
+    const data = await loginUser(username, password);// Call the login function
 
-      // Store user role (optional, for later use)
-      const role = data.role?.toLowerCase();
-      if (!role) throw new Error("Role not found in response");
-      setUserRole(role);
-      localStorage.setItem("userRole", role);
+    // ✅ Get role and user_id from data.user
+    const role = data.user?.role?.toLowerCase();
+    const userId = data.user?.id;
+    const token = data.access_token;
 
-      // Redirect to OTP verification page
-      router.replace("/otp/verify"); //verify OTP from authenticator
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
+    if (!role) throw new Error("Role not found in response");// Ensure role is present
 
-  
+    // ✅ Save to localStorage
+    localStorage.setItem("token", token);
+    localStorage.setItem("user_id", userId);
+    localStorage.setItem("userRole", role);
+
+    // ✅ Update AuthContext (if used)
+    setUserRole(role);
+
+    // ✅ Navigate to OTP verification
+    router.replace("/otp/verify");
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Render the login form
   return (
