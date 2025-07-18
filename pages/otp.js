@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/router";
+import AuthNoNavbar from "layouts/AuthNoNavbar.js";
 
 export default function OTPVerification() {
   const [otp, setOtp] = useState("");
@@ -87,3 +88,5 @@ export default function OTPVerification() {
     </div>
   );
 }
+
+OTPVerification.layout = AuthNoNavbar; // Use the AuthNoNavbar layout
