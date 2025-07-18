@@ -13,7 +13,10 @@ const loginUser = async (username, password) => {
     body: JSON.stringify({ username, password }), // Send username and password to the API
   });
 
-  const data = await response.json();
+  const data = await response.json();// Parse the JSON response
+
+  // 🔍 Debug the API response
+  console.log("Login OTP Response:", data); // <= Temporary log for debugging
 
   if (!response.ok) {
     const errorMsg = data?.detail || data?.message || "Login failed";
@@ -34,6 +37,7 @@ export default function Login() {
   const [password, setPassword] = useState("");// State for password
   const [error, setError] = useState(null);// State for error messages
   const [loading, setLoading] = useState(false);// State for loading status
+  
 
   // Handle form submission
   const handleSubmit = async (e) => {
@@ -41,8 +45,10 @@ export default function Login() {
     setLoading(true);   // Set loading state to true
     setError(null);     // Reset error state
 
+    // Attempt to login
     try {
       const data = await loginUser(username, password); //login with username/password
+      
 
       // Store user role (optional, for later use)
       const role = data.role?.toLowerCase();
@@ -58,6 +64,8 @@ export default function Login() {
       setLoading(false);
     }
   };
+
+  
 
   // Render the login form
   return (
