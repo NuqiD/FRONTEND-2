@@ -9,7 +9,7 @@ const loginUser = async (username, password) => {
   formData.append("username", username);// Append username to FormData
   formData.append("password", password);// Create FormData object with username and password
 
-  const response = await fetch("http://192.168.0.21:8000/auth/login", {
+  const response = await fetch("http://192.168.0.21:8000/api/auth/login", {
     method: "POST",
     body: formData,
   });// Send POST request with form data
@@ -51,6 +51,7 @@ export default function Login() {
   const [error, setError] = useState(null);// State for error messages
   const [loading, setLoading] = useState(false);// State for loading status
 
+  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();// Prevent default form submission
     setLoading(true);// Set loading state to true
