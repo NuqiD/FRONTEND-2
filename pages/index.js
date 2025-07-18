@@ -5,14 +5,13 @@ import { AuthContext } from "context/AuthContext";
 
 // Async login function
 const loginUser = async (username, password) => {
-  const formData = new FormData();
-  formData.append("username", username);
-  formData.append("password", password);
-
   const response = await fetch("https://tactic.chatngo.net/api/auth/login-otp", {
     method: "POST",
-    body: formData,
-  });// Send POST request with form data
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ username, password }), // Send username and password to the API
+  });
 
   const data = await response.json();
 
