@@ -1,8 +1,10 @@
-import React, { useState, useEffect } from "react";
+// pages/otp.js
+import React, { useState } from "react";
 import { useRouter } from "next/router";
-import AuthNoNavbar from "layouts/AuthNoNavbar.js";
+import AuthNoNavbar from "layouts/AuthNoNavbar";
+import { verifyOtp } from "services/otpAuth"; // path depends on your folder structure
 
-export default function OTPVerification() {
+function OTPVerification() {
   const [otp, setOtp] = useState("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -13,28 +15,10 @@ export default function OTPVerification() {
     setLoading(true);
     setError(null);
 
-    const username = localStorage.getItem("otpUsername");
-    const accessToken = localStorage.getItem("preAuthToken");
-
     try {
-      const response = await fetch("http://192.168.0.21:8000/api/otp/verify", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`,
-        },
-        body: JSON.stringify({
-          username,
-          otp,
-        }),
-      });
+      await verifyOtp(otp);
 
-      const data = await response.json();
-      if (!response.ok) {
-        throw new Error(data?.detail || data?.message || "OTP verification failed");
-      }
-
-      // If successful, redirect by role
+      // Redirect by role
       const role = localStorage.getItem("preAuthRole");
       switch (role) {
         case "admin":
@@ -89,4 +73,5 @@ export default function OTPVerification() {
   );
 }
 
-OTPVerification.layout = AuthNoNavbar; // Use the AuthNoNavbar layout
+OTPVerification.layout = AuthNoNavbar;
+export default OTPVerification;
