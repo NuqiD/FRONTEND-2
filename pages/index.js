@@ -5,19 +5,20 @@ import { AuthContext } from "context/AuthContext";
 
 // Async login function
 const loginUser = async (username, password) => {
-  const formData = new FormData();
-  formData.append("username", username);
-  formData.append("password", password);
+  const formData = new FormData();// Create FormData object to send username and password
+  formData.append("username", username);// Append username to FormData
+  formData.append("password", password);// Create FormData object with username and password
 
-  const response = await fetch("http://192.168.0.21:8000/auth/login", {
+  const response = await fetch("https://192.168.0.21:8000/auth/login", {
     method: "POST",
     body: formData,
-  });
+  });// Send POST request with form data
 
-  const data = await response.json();
+  const data = await response.json();// Parse the JSON response
 
   if (!response.ok) {
-    throw new Error(data.detail || "Login failed");
+    const errorMsg = data?.detail || data?.message || "Login failed";// Fallback error message
+    throw new Error(errorMsg);// Handle error if response is not ok
   }
 
   // Save relevant fields to localStorage
@@ -29,6 +30,7 @@ const loginUser = async (username, password) => {
     "role",
   ];
 
+  // Check if all keys exist in the response data
   keysToStore.forEach((key) => {
     const value = data[key];
     if (key === "role") {
@@ -40,44 +42,44 @@ const loginUser = async (username, password) => {
 
   return data;
 };
-
+// Login component
 export default function Login() {
-  const router = useRouter();
-  const { setUserRole } = useContext(AuthContext);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const router = useRouter();// Initialize router for navigation
+  const { setUserRole } = useContext(AuthContext);// Access AuthContext to set user role
+  const [username, setUsername] = useState("");// State for username
+  const [password, setPassword] = useState("");// State for password
+  const [error, setError] = useState(null);// State for error messages
+  const [loading, setLoading] = useState(false);// State for loading status
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
+    e.preventDefault();// Prevent default form submission
+    setLoading(true);// Set loading state to true
+    setError(null);// Reset error state
 
     try {
-      const data = await loginUser(username, password);
-      const role = data.role?.toLowerCase();
+      const data = await loginUser(username, password);// Call loginUser to authenticate
+      const role = data.role?.toLowerCase();// Extract role from response data
 
-      if (!role) throw new Error("Role not found in response");
+      if (!role) throw new Error("Role not found in response");// Check if role exists
 
       setUserRole(role);
 
       // Redirect based on role
       switch (role) {
         case "admin":
-          router.push("/admin/dashboard");
+          router.replace("/admin/dashboard");
           break;
         case "user": // Assuming both go to same dashboard
-          router.push("/admin/dashboard");
+          router.replace("/admin/dashboard");
           break;
         case "hod": // Head of Department
-          router.push("/hod/dashboard");
+          router.replace("/hod/dashboard");
           break;
         case "firewall": // Firewall role
-          router.push("/firewall/dashboard");
+          router.replace("/firewall/dashboard");
           break;
         case "analyst":  // Security Analyst
-          router.push("/securityanalyst/dashboard");
+          router.replace("/securityanalyst/dashboard");
           break;
         default:
           throw new Error("Unknown role: " + role);
@@ -89,6 +91,7 @@ export default function Login() {
     }
   };
 
+  // Render the login form
   return (
     <>
       <div className="container mx-auto px-4 h-full">
