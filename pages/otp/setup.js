@@ -1,55 +1,37 @@
-// pages/otp/setup.js
 import { useEffect, useState } from "react";
-import QRCode from "qrcode.react";
 import { useRouter } from "next/router";
+import { QRCodeCanvas } from "qrcode.react"; // ✅ fixed import
 
 export default function OTPSetup() {
-  const [otpauthUrl, setOtpauthUrl] = useState("");
-  const [userId, setUserId] = useState(null); // Ideally, get this from your auth context or localStorage
+  const [qrCodeValue, setQrCodeValue] = useState("");
   const router = useRouter();
 
   useEffect(() => {
-    const storedUserId = localStorage.getItem("user_id"); // Or fetch from context/session
-    setUserId(storedUserId);
+    const userId = localStorage.getItem("user_id");
 
-    if (storedUserId) {
-      fetch("https://tactic.chatngo.net/api/auth/otp/generate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ user_id: storedUserId }),
-      })
-        .then((res) => res.json())
-        .then((data) => {
-          if (data.otpauth_url) {
-            setOtpauthUrl(data.otpauth_url);
-          }
-        })
-        .catch((err) => {
-          console.error("Error generating OTP:", err);
-        });
+    if (!userId) {
+      router.replace("/login");
+      return;
     }
-  }, []);
+
+    // Fetch the QR code value from the backend
+    fetch(`https://tactic.chatngo.net/api/auth/otp/generate?user_id=${userId}`)
+      .then((res) => res.json())
+      .then((data) => {
+        setQrCodeValue(data.qr_code); // The `qr_code` should be the string like "otpauth://..."
+      })
+      .catch((err) => {
+        console.error("Failed to fetch QR code", err);
+      });
+  }, [router]);
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center">
-      <h2 className="text-xl font-bold mb-4">Scan QR with Google Authenticator</h2>
-      {otpauthUrl ? (
-        <>
-          <QRCode value={otpauthUrl} />
-          <p className="mt-4 text-sm text-gray-600">
-            Scan this QR code in your Google Authenticator app
-          </p>
-          <button
-            className="mt-6 bg-blue-500 text-white px-4 py-2 rounded"
-            onClick={() => router.push("/otp/verify")}
-          >
-            Continue to Verification
-          </button>
-        </>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-xl font-semibold mb-4">Scan this QR Code</h1>
+      {qrCodeValue ? (
+        <QRCodeCanvas value={qrCodeValue} size={256} />
       ) : (
-        <p>Loading QR code...</p>
+        <p>Loading QR Code...</p>
       )}
     </div>
   );
