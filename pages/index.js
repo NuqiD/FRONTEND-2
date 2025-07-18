@@ -60,7 +60,7 @@ export default function Login() {
     setUserRole(role);
 
     // ✅ Navigate to OTP verification
-    router.replace("/otp/verify");
+    router.replace("/otp/setup");
   } catch (err) {
     setError(err.message);
   } finally {
