@@ -9,7 +9,7 @@ const loginUser = async (username, password) => {
   formData.append("username", username);// Append username to FormData
   formData.append("password", password);// Create FormData object with username and password
 
-  const response = await fetch("http://tactic.chatngo.net/api/auth/login", {
+  const response = await fetch("https://tactic.chatngo.net/api/auth/login", {
     method: "POST",
     body: formData,
   });// Send POST request with form data
