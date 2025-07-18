@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 import { useRouter } from "next/router";
 import AuthNoNavbar from "layouts/AuthNoNavbar";
-import { verifyOtp } from "services/otpAuth"; // path depends on your folder structure
+import { verifyOtp } from "Services/otpAuth"; // path depends on your folder structure
 
 function OTPVerification() {
   const [otp, setOtp] = useState("");
