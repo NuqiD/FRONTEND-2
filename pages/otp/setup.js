@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { QRCodeCanvas } from "qrcode.react"; // ✅ fixed import
+import { QRCodeCanvas } from "qrcode.react";
 
 export default function OTPSetup() {
   const [qrCodeValue, setQrCodeValue] = useState("");
@@ -14,11 +14,18 @@ export default function OTPSetup() {
       return;
     }
 
-    // Fetch the QR code value from the backend
-    fetch(`https://tactic.chatngo.net/api/auth/otp/generate?user_id=${userId}`)
+    // Send POST request to generate OTP
+    fetch("https://tactic.chatngo.net/api/auth/otp/generate", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ user_id: parseInt(userId) }), // or just userId if backend accepts string
+    })
       .then((res) => res.json())
       .then((data) => {
-        setQrCodeValue(data.qr_code); // The `qr_code` should be the string like "otpauth://..."
+        // If backend returns { otpauth_url: "otpauth://..." }
+        setQrCodeValue(data.otpauth_url);
       })
       .catch((err) => {
         console.error("Failed to fetch QR code", err);
